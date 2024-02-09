@@ -1,16 +1,36 @@
 import React from "react";
 
 const Download = () => {
+  const handlePrint = () => {
+    window.print();
+  };
   return (
     <>
-      <div className="flex justify-center">
+      <div className="grid grid-cols-3  lg:grid-cols-1 justify-center gap-10 lg:gap-0   ">
         <button
           type="submit"
-          className="px-24 py-2 bg-green-600 rounded-sm text-white "
+          className="sm:px-16 py-2 border  mb-4 bg-teal-900 opacity-85 rounded-sm text-white  hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
         >
           Download
         </button>
+
+        <button
+          type="submit"
+          className=" py-2 border mb-4 bg-teal-900 opacity-85 rounded-sm text-white hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
+          onClick={handlePrint}
+        >
+          Print
+        </button>
+
+        <button
+          type="submit"
+          className=" py-2  border mb-4 bg-teal-900 opacity-85 rounded-sm text-white  hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
+        >
+          Send Mail
+        </button>
       </div>
+
+      <div className="flex justify-center"></div>
 
       {/* type */}
       <div className="flex flex-col items-center my-5 gap-4">
