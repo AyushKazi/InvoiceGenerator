@@ -3,9 +3,14 @@ import React from "react";
 const Download = () => {
   return (
     <>
-      <button className="px-16 py-2 bg-green-600 rounded-sm text-white">
-        Download
-      </button>
+      <div className="flex justify-center">
+        <button
+          type="submit"
+          className="px-24 py-2 bg-green-600 rounded-sm text-white "
+        >
+          Download
+        </button>
+      </div>
 
       {/* type */}
       <div className="flex flex-col items-center my-5 gap-4">
