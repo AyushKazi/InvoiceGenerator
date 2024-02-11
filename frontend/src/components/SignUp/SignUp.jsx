@@ -19,12 +19,14 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="flex border border-red-600  justify-center items-center my-10 h-[-100px] ">
+      <div className="flex border  justify-center items-center my-10 h-[-100px] ">
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="border bg-white  px-6 py-4 rounded-lg shadow-2xl w-3/4 sm:max-w-screen-sm space-y-5 md:max-w-prose  lg:max-w-prose   "
         >
-          <h1 className="text-4xl text-center  mb-4 font-semibold">Sign Up</h1>
+          <h1 className="text-4xl text-center  my-4 mb-8 font-semibold">
+            Sign Up
+          </h1>
 
           {/* input fields */}
 
@@ -110,8 +112,11 @@ const SignUp = () => {
           <div className="text-xs flex justify-center">
             <p className="forgot">
               Already have a account?{" "}
-              <Link to="/login" className="signup underline underline-offset-1">
-                Login
+              <Link
+                to="/signin"
+                className="signup underline underline-offset-1"
+              >
+                Sign In
               </Link>
             </p>
           </div>
