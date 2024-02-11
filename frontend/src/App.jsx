@@ -4,9 +4,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Invoice from "./routes/Invoice";
 import RootLayout from "./routes/RootLayout";
 import ErrorPage from "./routes/ErrorPage";
-import SignIn from "./routes/SignIn";
-import SignUp from "./routes/SignUp";
+
 import Help from "./routes/Help";
+import SignUp from "./components/SignUp/SignUp";
+import SignIn from "./components/SignUp/SignIn";
 
 const router = createBrowserRouter([
   {

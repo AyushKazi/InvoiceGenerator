@@ -4,6 +4,7 @@ import Download from "../components/Download/Download";
 import Dates from "../components/Invoice/Dates";
 import Logo from "../components/Invoice/Logo";
 import BillDetails from "../components/Invoice/BillDetails";
+import Table from "../components/Invoice/Table";
 
 const Invoice = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -25,6 +26,7 @@ const Invoice = () => {
                 <Dates />
               </div>
             </div>
+            <Table />
           </div>
         </div>
         <div className="main 2">

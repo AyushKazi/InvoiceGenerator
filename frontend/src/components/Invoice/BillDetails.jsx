@@ -6,7 +6,7 @@ const BillDetails = () => {
       <input
         type="text"
         placeholder="Bill from"
-        className=" w-full px-4 py-2 rounded-sm placeholder:text-lg focus:shadow-md focus:outline-slate-200 "
+        className=" w-full px-4 py-2 rounded-sm placeholder:font-medium placeholder:text-base focus:shadow-md focus:outline-slate-200 "
       />
       <input
         type="text"
@@ -27,7 +27,7 @@ const BillDetails = () => {
       <input
         type="text"
         placeholder="Bill to"
-        className=" w-full px-4 py-2 rounded-sm placeholder:text-lg focus:shadow-md focus:outline-slate-200 "
+        className=" w-full px-4 py-2 rounded-sm placeholder:text-base placeholder:font-medium focus:shadow-md focus:outline-slate-200 "
       />
       <input
         type="text"
