@@ -1,6 +1,6 @@
 import React from "react";
 
-const Download = () => {
+const Download = ({ func }) => {
   const handlePrint = () => {
     window.print();
   };
@@ -9,9 +9,10 @@ const Download = () => {
       <div className="grid grid-cols-3  lg:grid-cols-1 justify-center gap-10 lg:gap-0   ">
         <button
           type="submit"
+          onClick={func}
           className="sm:px-16 py-2 border  mb-4 bg-slate-700 opacity-85 rounded-sm text-white  hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
         >
-          Download
+          Preview
         </button>
 
         <button

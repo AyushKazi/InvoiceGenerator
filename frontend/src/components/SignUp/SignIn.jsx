@@ -76,7 +76,7 @@ const SignUp = () => {
               Create new account?{" "}
               <Link
                 to="/signup"
-                className="signup underline underline-offset-1"
+                className="signup underline underline-offset-1 hover:tracking-wider hover:text-red-400"
               >
                 Sign Up
               </Link>
