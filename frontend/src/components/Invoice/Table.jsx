@@ -17,9 +17,8 @@ const Table = () => {
         description: "",
         numberOfItems: "",
         rate: "",
-        amount: "1000",
+        amount: "",
       },
-      defaultProduct,
     ],
   });
   const { discount, total, tax, amount, products } = tableData;
@@ -33,6 +32,19 @@ const Table = () => {
     } else {
       setTableData({ ...tableData, [e.target.name]: e.target.value });
     }
+  };
+
+  const handleNewItem = () => {
+    const newProduct = { ...defaultProduct };
+
+    setTableData({ ...tableData, products: [...products, newProduct] });
+  };
+
+  const handleDelete = (indexToDelete) => {
+    setTableData({
+      ...tableData,
+      products: products.filter((_, index) => index !== indexToDelete),
+    });
   };
 
   useEffect(() => {
@@ -69,8 +81,8 @@ const Table = () => {
 
   return (
     <>
-      <div className="table w-full rounded-md overflow-hidden ">
-        <div className="title bg-slate-600  flex ">
+      <div className="table w-full rounded-md overflow-hidden  ">
+        <div className="title bg-slate-600  flex  ">
           <input
             type="text"
             placeholder="Description"
@@ -131,13 +143,27 @@ const Table = () => {
                 onChange={(e) => handleChange(e, index)}
                 className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
               />
+              <button
+                className="px-4 py-1 font-light text-sm bg-slate-600 rounded-md text-white hover:bg-transparent hover:text-slate-600 border hover:border-slate-600 transition-all duration-200"
+                onClick={() => handleDelete(index)}
+              >
+                Delete
+              </button>
             </div>
           );
         })}
+        <div className="button my-2">
+          <button
+            onClick={handleNewItem}
+            className="px-4 py-1 font-light text-sm bg-slate-600 rounded-md text-white hover:bg-transparent hover:text-slate-600 border hover:border-slate-600 transition-all duration-200"
+          >
+            Add data
+          </button>
+        </div>
 
         {/* Notes section */}
         <div className=" grid grid-cols-1 md:grid-cols-2 my-2">
-          <div className="1">
+          <div className="1 order-last md:order-first">
             <input
               type="text"
               placeholder="Notes"
@@ -224,6 +250,7 @@ const Table = () => {
                 name="total"
                 onChange={handleChange}
                 value={total}
+                disabled
                 className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
               />
             </div>
