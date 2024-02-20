@@ -1,6 +1,22 @@
 import React from "react";
+import { useState } from "react";
 
 const Dates = () => {
+  const [dates, setDates] = useState({
+    date: "",
+    paymentTerms: "",
+    dueDate: "",
+    poNum: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    console.log(e.target.value);
+    setDates({ ...dates, [e.target.name]: [e.target.value] });
+  };
+
+  const { date, paymentTerms, dueDate, poNum } = dates;
   return (
     <>
       <div className="dates mt-4 md:mt-10  ">
@@ -13,6 +29,9 @@ const Dates = () => {
           <input
             type="date"
             placeholder="Enter name"
+            name="date"
+            value={date}
+            onChange={handleChange}
             className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
           />
         </div>
@@ -27,6 +46,9 @@ const Dates = () => {
           <input
             type="text"
             placeholder="Enter payment terms"
+            name="paymentTerms"
+            value={paymentTerms}
+            onChange={handleChange}
             className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
           />
         </div>
@@ -40,7 +62,10 @@ const Dates = () => {
           />
           <input
             type="date"
-            placeholder="Enter name"
+            placeholder="Enter due date"
+            name="dueDate"
+            value={dueDate}
+            onChange={handleChange}
             className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
           />
         </div>
@@ -55,6 +80,9 @@ const Dates = () => {
           <input
             type="number"
             placeholder="Enter Order number"
+            name="poNum"
+            value={poNum}
+            onChange={handleChange}
             className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
           />
         </div>

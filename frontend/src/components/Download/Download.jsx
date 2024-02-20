@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Download = ({ func }) => {
   const handlePrint = () => {
@@ -7,13 +8,14 @@ const Download = ({ func }) => {
   return (
     <>
       <div className="grid grid-cols-3  lg:grid-cols-1 justify-center gap-10 lg:gap-0   ">
-        <button
+        <Link
+          to="/pdf"
           type="submit"
           onClick={func}
           className="sm:px-16 py-2 border  mb-4 bg-slate-700 opacity-85 rounded-sm text-white  hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
         >
           Preview
-        </button>
+        </Link>
 
         <button
           type="submit"

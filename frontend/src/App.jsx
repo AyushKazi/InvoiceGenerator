@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useState } from "react";
 import NavBar from "./components/NavBar/NavBar";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Invoice from "./routes/Invoice";
@@ -8,6 +8,7 @@ import ErrorPage from "./routes/ErrorPage";
 import Help from "./routes/Help";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignUp/SignIn";
+import Pdf from "./components/Invoice/Pdf";
 
 const router = createBrowserRouter([
   {
@@ -21,10 +22,15 @@ const router = createBrowserRouter([
       { path: "/help", element: <Help /> },
     ],
   },
+  { path: "/pdf", element: <Pdf /> },
 ]);
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />;
+    </>
+  );
 };
 
 export default App;

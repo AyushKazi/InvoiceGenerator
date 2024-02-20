@@ -11,21 +11,13 @@ const Invoice = () => {
   const { register, handleSubmit, reset } = useForm();
   const [showInvoice, setShowInvoice] = useState(false);
 
-  const handlePreview = () => {
-    setShowInvoice(true);
-  };
-
-  const handleEdit = () => {
-    setShowInvoice(false);
-  };
-
   return (
     <>
       {" "}
       {showInvoice ? (
-        <Pdf func={handleEdit} />
+        <Pdf />
       ) : (
-        <div className="mx-4 sm:mx-10  my-10 gap-10 flex flex-col lg:flex-row md:mx-20">
+        <div className="mx-4 sm:mx-10  my-10 gap-10 flex flex-col lg:flex-row md:mx-20 ">
           <div className="main 1  bg-white lg:w-4/5 shadow-md rounded-sm">
             <div className="top   m-4 ">
               {/* top shelf */}
@@ -44,7 +36,7 @@ const Invoice = () => {
             </div>
           </div>
           <div className="main 2">
-            <Download func={handlePreview} />
+            <Download />
           </div>
         </div>
       )}

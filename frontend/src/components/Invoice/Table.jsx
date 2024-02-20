@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 const Table = () => {
   const defaultProduct = {
@@ -24,11 +25,19 @@ const Table = () => {
   const { discount, total, tax, amount, products } = tableData;
   const handleChange = (e, index = -1) => {
     if (index > -1) {
-      console.log(e.target.value);
+      // console.log(e.target.value);
       const { name, value } = e.target;
       const updatedProducts = [...products];
       updatedProducts[index] = { ...updatedProducts[index], [name]: value };
       setTableData({ ...tableData, products: updatedProducts });
+
+      // Recalculate amount if numberOfItems or rate changes
+      if (name === "numberOfItems" || name === "rate") {
+        const numberOfItems =
+          parseInt(updatedProducts[index].numberOfItems) || 1;
+        const rate = parseFloat(updatedProducts[index].rate) || 0;
+        updatedProducts[index].amount = (numberOfItems * rate).toFixed(2); // Assuming you want to keep 2 decimal places
+      }
     } else {
       setTableData({ ...tableData, [e.target.name]: e.target.value });
     }
@@ -103,6 +112,9 @@ const Table = () => {
             placeholder="Amount"
             className="border px-2 py-2 text-sm w-full bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
           />
+          <button className="px-2 bg-white text-white cursor-default">
+            <RiDeleteBin5Line />
+          </button>
         </div>
         {products.map((product, index) => {
           return (
@@ -118,7 +130,7 @@ const Table = () => {
                 className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
               />
               <input
-                type="text"
+                type="number"
                 name="numberOfItems"
                 value={product.numberOfItems}
                 onChange={(e) => handleChange(e, index)}
@@ -126,7 +138,7 @@ const Table = () => {
                 className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
               />
               <input
-                type="text"
+                type="number"
                 name="rate"
                 value={product.rate}
                 onChange={(e) => {
@@ -136,18 +148,19 @@ const Table = () => {
                 className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
               />
               <input
-                type="text"
+                type="number"
                 placeholder="Amount"
                 value={product.amount}
                 name="amount"
                 onChange={(e) => handleChange(e, index)}
+                disabled
                 className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
               />
               <button
-                className="px-4 py-1 font-light text-sm bg-slate-600 rounded-md text-white hover:bg-transparent hover:text-slate-600 border hover:border-slate-600 transition-all duration-200"
+                className="px-2 text-red-700 font-light hover:text-lg  rounded-full hover:bg-transparent hover:text-red-600 hover:rotate-45 transition-all duration-200"
                 onClick={() => handleDelete(index)}
               >
-                Delete
+                <RiDeleteBin5Line />
               </button>
             </div>
           );
@@ -188,6 +201,7 @@ const Table = () => {
 
           {/* Amount calculations */}
           <div className="2">
+            {/* sub total */}
             <div className="date my-2 grid grid-cols-2">
               <input
                 type="text"
@@ -203,11 +217,11 @@ const Table = () => {
               />
             </div>
 
-            {/* payment */}
+            {/* tax */}
             <div className="date my-2 grid grid-cols-2">
               <input
                 type="text"
-                placeholder="Tax"
+                placeholder="Tax (%)"
                 className=" w-full px-4 py-2 rounded-sm  placeholder:text-sm placeholder:text-right focus:shadow-md focus:outline-slate-200 "
               />
               <input
@@ -220,11 +234,11 @@ const Table = () => {
               />
             </div>
 
-            {/* due date */}
+            {/* discount */}
             <div className="date my-2 grid grid-cols-2">
               <input
                 type="text"
-                placeholder="Discount"
+                placeholder="Discount (%)"
                 className=" w-full px-4 py-2 rounded-sm  placeholder:text-sm placeholder:text-right focus:shadow-md focus:outline-slate-200 "
               />
               <input
@@ -237,7 +251,7 @@ const Table = () => {
               />
             </div>
 
-            {/* PO Number */}
+            {/* total */}
             <div className="date my-2 grid grid-cols-2">
               <input
                 type="text"
