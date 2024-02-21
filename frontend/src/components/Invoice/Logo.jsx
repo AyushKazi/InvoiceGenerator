@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 
 const Logo = () => {
+  const inputRef = useRef(null);
+  const [image, setImage] = useState(null);
+
+  const handleImageClick = () => {
+    inputRef.current.click();
+  };
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
   return (
     <>
       <div className="flex flex-col-reverse sm:flex-row justify-between  ">
         {/* logo input field */}
-        <div className="logo mx-4 mb-4 border drop-shadow-md relative">
-          <input
-            type="file"
-            placeholder="Add Photo"
-            className="size-36  border opacity-0 cursor-pointer "
-          />
-          <p className="absolute top-16 left-12 text-slate-400 sm:text-xl sm:left-9  md:left-8 lg:left-7 ">
-            Add Photo
-          </p>
+        <div
+          className="logo mx-4 mb-4 border drop-shadow-md relative"
+          onClick={handleImageClick}
+        >
+          {image ? (
+            <img
+              src={URL.createObjectURL(image)}
+              alt="no photo"
+              className="h-[170px] w-[200px] "
+            />
+          ) : (
+            <>
+              <input
+                type="file"
+                onChange={handleImageChange}
+                placeholder="Add Photo"
+                className="size-36  border opacity-0 cursor-pointer "
+                ref={inputRef}
+              />
+              <p className="absolute top-16 left-12 text-slate-400 sm:text-xl sm:left-9  md:left-8 lg:left-7 ">
+                Add Photo
+              </p>
+            </>
+          )}
         </div>
 
         {/* Invoice num field */}

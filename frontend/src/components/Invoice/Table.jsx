@@ -1,92 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { useInvoice } from "../../hooks/use-invoice";
 
 const Table = () => {
-  const defaultProduct = {
-    description: "",
-    numberOfItems: "",
-    rate: "",
-    amount: "",
-  };
-  const [subTotal, setSubTotal] = useState(0);
-  const [tableData, setTableData] = useState({
-    total: "",
-    discount: "",
-    tax: "",
-    products: [
-      {
-        description: "",
-        numberOfItems: "",
-        rate: "",
-        amount: "",
-      },
-    ],
-  });
-  const { discount, total, tax, amount, products } = tableData;
-  const handleChange = (e, index = -1) => {
-    if (index > -1) {
-      // console.log(e.target.value);
-      const { name, value } = e.target;
-      const updatedProducts = [...products];
-      updatedProducts[index] = { ...updatedProducts[index], [name]: value };
-      setTableData({ ...tableData, products: updatedProducts });
-
-      // Recalculate amount if numberOfItems or rate changes
-      if (name === "numberOfItems" || name === "rate") {
-        const numberOfItems =
-          parseInt(updatedProducts[index].numberOfItems) || 1;
-        const rate = parseFloat(updatedProducts[index].rate) || 0;
-        updatedProducts[index].amount = (numberOfItems * rate).toFixed(2); // Assuming you want to keep 2 decimal places
-      }
-    } else {
-      setTableData({ ...tableData, [e.target.name]: e.target.value });
-    }
-  };
-
-  const handleNewItem = () => {
-    const newProduct = { ...defaultProduct };
-
-    setTableData({ ...tableData, products: [...products, newProduct] });
-  };
-
-  const handleDelete = (indexToDelete) => {
-    setTableData({
-      ...tableData,
-      products: products.filter((_, index) => index !== indexToDelete),
-    });
-  };
-
-  useEffect(() => {
-    setSubTotal(
-      products.reduce((total, product) => {
-        const amount = product.amount !== "" ? parseInt(product.amount) : 0; // Amount ma value ca vani parse garni natra default ma 0 rakhdini
-        return (total += amount);
-      }, 0)
-    );
-  }, [products]);
-
-  useEffect(() => {
-    const calculateTotal = () => {
-      let currentDiscount = parseInt(discount);
-      let currentAmount = subTotal;
-      let currentTax = parseInt(tax);
-      if (currentAmount > 0) {
-        let total = currentAmount;
-
-        currentDiscount > 0 &&
-          (total -= (currentDiscount / 100) * currentAmount);
-        currentTax > 0 && (total += (tax / 100) * total);
-
-        setTableData({
-          discount: discount,
-          tax: tax,
-          products: products,
-          total: `${total}`,
-        });
-      }
-    };
-    calculateTotal();
-  }, [discount, tax, subTotal]);
+  const {
+    discount,
+    total,
+    tax,
+    amount,
+    products,
+    notes,
+    terms,
+    subTotal,
+    handleNewItem,
+    handleDelete,
+    handleChange,
+  } = useInvoice();
 
   return (
     <>
@@ -100,17 +29,17 @@ const Table = () => {
           <input
             type="text"
             placeholder="Item"
-            className="border px-2 py-2 text-sm w-full bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
+            className="border px-2 py-2 text-sm w-2/6 bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
           />
           <input
             type="text"
             placeholder="Rate"
-            className="border px-2 py-2 text-sm w-full bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
+            className="border px-2 py-2 text-sm w-2/4 bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
           />
           <input
             type="text"
             placeholder="Amount"
-            className="border px-2 py-2 text-sm w-full bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
+            className="border px-2 py-2 text-sm w-2/4 bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
           />
           <button className="px-2 bg-white text-white cursor-default">
             <RiDeleteBin5Line />
@@ -119,7 +48,7 @@ const Table = () => {
         {products.map((product, index) => {
           return (
             <div className="items flex" key={index}>
-              <input
+              <textarea
                 type="text"
                 name="description"
                 value={product.description}
@@ -135,7 +64,7 @@ const Table = () => {
                 value={product.numberOfItems}
                 onChange={(e) => handleChange(e, index)}
                 placeholder="Number of items"
-                className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
+                className="border px-2 py-2 text-sm w-2/6  placeholder:font-thin  focus:outline-slate-400"
               />
               <input
                 type="number"
@@ -145,7 +74,7 @@ const Table = () => {
                   handleChange(e, index);
                 }}
                 placeholder="Rate"
-                className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
+                className="border px-2 py-2 text-sm w-2/4  placeholder:font-thin  focus:outline-slate-400"
               />
               <input
                 type="number"
@@ -154,7 +83,7 @@ const Table = () => {
                 name="amount"
                 onChange={(e) => handleChange(e, index)}
                 disabled
-                className="border px-2 py-2 text-sm w-full  placeholder:font-thin  focus:outline-slate-400"
+                className="border px-2 py-2 text-sm w-2/4  placeholder:font-thin  focus:outline-slate-400"
               />
               <button
                 className="px-2 text-red-700 font-light hover:text-lg  rounded-full hover:bg-transparent hover:text-red-600 hover:rotate-45 transition-all duration-200"
@@ -182,27 +111,33 @@ const Table = () => {
               placeholder="Notes"
               className=" w-full mb-2 px-4 py-2 rounded-sm placeholder:font-medium placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
             />
-            <input
+            <textarea
               type="text"
               placeholder="Notes - any relevant information regarding to the invoice"
-              className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
+              name="notes"
+              value={notes}
+              onChange={handleChange}
+              className="border  border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
             />
             <input
               type="text"
               placeholder="Terms"
               className="  w-full mb-2 px-4 py-2 placeholder:font-medium rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
             />
-            <input
+            <textarea
               type="text"
               placeholder="Terms and conditions - late fees, payment methods"
-              className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
+              name="terms"
+              value={terms}
+              onChange={handleChange}
+              className="border overflow-x-scroll border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
             />
           </div>
 
           {/* Amount calculations */}
-          <div className="2">
+          <div className="2  py-5">
             {/* sub total */}
-            <div className="date my-2 grid grid-cols-2">
+            <div className="date my-2 grid grid-cols-2 ">
               <input
                 type="text"
                 placeholder="Sub Total"

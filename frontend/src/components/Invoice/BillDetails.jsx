@@ -1,21 +1,16 @@
 import React, { useState } from "react";
+import { useInvoice } from "../../hooks/use-invoice";
 
 const BillDetails = () => {
-  const [billDetails, setBillDetails] = useState({
-    fromName: "",
-    fromAddress: "",
-    fromNumber: "",
-    toName: "",
-    toAddress: "",
-    toNumber: "",
-  });
-  const { fromName, fromAddress, fromNumber, toName, toAddress, toNumber } =
-    billDetails;
-
-  const handleChnage = (e) => {
-    console.log(e.target.value);
-    setBillDetails({ ...billDetails, [e.target.name]: [e.target.value] });
-  };
+  const {
+    fromName,
+    fromAddress,
+    fromNumber,
+    toName,
+    toAddress,
+    toNumber,
+    handleChange,
+  } = useInvoice();
 
   return (
     <div className="detailsline   ">
@@ -28,7 +23,7 @@ const BillDetails = () => {
         type="text"
         name="fromName"
         value={fromName}
-        onChange={handleChnage}
+        onChange={handleChange}
         placeholder="Enter name"
         className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
       />
@@ -36,7 +31,7 @@ const BillDetails = () => {
         type="text"
         name="fromAddress"
         value={fromAddress}
-        onChange={handleChnage}
+        onChange={handleChange}
         placeholder="Enter Address"
         className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
       />
@@ -44,7 +39,7 @@ const BillDetails = () => {
         type="text"
         name="fromNumber"
         value={fromNumber}
-        onChange={handleChnage}
+        onChange={handleChange}
         placeholder="Enter Number"
         className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
       />
@@ -59,7 +54,7 @@ const BillDetails = () => {
         placeholder="Enter name"
         name="toName"
         value={toName}
-        onChange={handleChnage}
+        onChange={handleChange}
         className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
       />
       <input
@@ -67,7 +62,7 @@ const BillDetails = () => {
         placeholder="Enter Address"
         name="toAddress"
         value={toAddress}
-        onChange={handleChnage}
+        onChange={handleChange}
         className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
       />
       <input
@@ -75,7 +70,7 @@ const BillDetails = () => {
         placeholder="Enter Number"
         name="toNumber"
         value={toNumber}
-        onChange={handleChnage}
+        onChange={handleChange}
         className="border border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
       />
     </div>

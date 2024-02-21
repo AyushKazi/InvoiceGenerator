@@ -1,22 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { useInvoice } from "../../hooks/use-invoice";
 
 const Dates = () => {
-  const [dates, setDates] = useState({
-    date: "",
-    paymentTerms: "",
-    dueDate: "",
-    poNum: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    console.log(e.target.value);
-    setDates({ ...dates, [e.target.name]: [e.target.value] });
-  };
-
-  const { date, paymentTerms, dueDate, poNum } = dates;
+  const { date, paymentTerms, dueDate, poNum, handleChange } = useInvoice();
   return (
     <>
       <div className="dates mt-4 md:mt-10  ">
