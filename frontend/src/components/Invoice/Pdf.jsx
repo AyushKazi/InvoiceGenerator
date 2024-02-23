@@ -2,8 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/ITTI.png";
 import { RiDeleteBin5Line } from "react-icons/ri";
+import { useSelector } from "react-redux";
 
 const Pdf = ({ func }) => {
+  const invoiceData = useSelector((state) => state.invoice.fromName);
+  console.log(invoiceData);
+
   const handlePrint = () => {
     window.print();
   };

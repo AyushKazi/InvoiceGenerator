@@ -1,22 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { RiDeleteBin5Line } from "react-icons/ri";
 import { useInvoice } from "../../hooks/use-invoice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  removeItem,
+  updateProducts,
+} from "../../../slices/invoiceSlice";
 
 const Table = () => {
-  const {
-    discount,
-    total,
-    tax,
-    amount,
-    products,
-    notes,
-    terms,
-    subTotal,
-    handleNewItem,
-    handleDelete,
-    handleChange,
-  } = useInvoice();
+  // const { handleDelete } = useInvoice();
 
+  const { discount, total, tax, amount, products, notes, terms, subTotal } =
+    useSelector((state) => state.invoice);
+  // console.log(products.map((i) => i.description));
+  const dispatch = useDispatch();
+
+  const handleChange = (e, i) => {
+    dispatch(
+      updateProducts({ name: e.target.name, value: e.target.value, index: i })
+    );
+  };
+
+  const handleNewItem = () => {
+    dispatch(addItem());
+  };
+
+  const handleDelete = (index) => {
+    dispatch(removeItem(index));
+  };
   return (
     <>
       <div className="table w-full rounded-md overflow-hidden  ">

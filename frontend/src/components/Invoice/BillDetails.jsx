@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 import { useInvoice } from "../../hooks/use-invoice";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFormData, updateProducts } from "../../../slices/invoiceSlice";
 
 const BillDetails = () => {
   const {
-    fromName,
-    fromAddress,
-    fromNumber,
-    toName,
-    toAddress,
-    toNumber,
-    handleChange,
+    // fromName,
+    // fromAddress,
+    // fromNumber,
+    // toName,
+    // toAddress,
+    // toNumber,
+    // handleChange,
   } = useInvoice();
+
+  const { fromName, fromAddress, fromNumber, toName, toAddress, toNumber } =
+    useSelector((state) => state.invoice);
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    dispatch(changeFormData({ name: e.target.name, value: e.target.value }));
+  };
 
   return (
     <div className="detailsline   ">
