@@ -1,9 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import { useInvoice } from "../../hooks/use-invoice";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFormData } from "../../../slices/invoiceSlice";
 
 const Dates = () => {
-  const { date, paymentTerms, dueDate, poNum, handleChange } = useInvoice();
+  const { date, paymentTerms, dueDate, poNum } = useSelector(
+    (state) => state.invoice
+  );
+
+  const dispatch = useDispatch();
+
+  const handleChange = (e) => {
+    dispatch(changeFormData({ name: e.target.name, value: e.target.value }));
+  };
+  // const { date, paymentTerms, dueDate, poNum, handleChange } = useInvoice();
   return (
     <>
       <div className="dates mt-4 md:mt-10  ">

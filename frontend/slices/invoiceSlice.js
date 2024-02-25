@@ -99,6 +99,7 @@ const calculateSubTotal = (products) => {
   }, 0);
 };
 
+//function to calculate the total value after discount and tax
 const calculateTotal = (discount, subTotal, tax) => {
   let currentDiscount = parseInt(discount);
   let currentAmount = subTotal;
@@ -109,7 +110,6 @@ const calculateTotal = (discount, subTotal, tax) => {
     currentDiscount > 0 && (total -= (currentDiscount / 100) * currentAmount);
     currentTax > 0 && (total += (tax / 100) * total);
 
-    console.log(total);
     return total;
   }
   return "";
@@ -141,6 +141,7 @@ const invoiceSlice = createSlice({
       } else {
         state[name] = value;
       }
+      //updating the subtotal and total value
       state.subTotal = calculateSubTotal(state.products);
       const { discount, tax } = state;
       state.total = calculateTotal(discount, state.subTotal, tax);
