@@ -1,8 +1,32 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/ITTI.png";
-import { RiDeleteBin5Line } from "react-icons/ri";
+
 import { useSelector } from "react-redux";
+import html2canvas from "html2canvas";
+import jspdf from "jspdf";
+
+const generateInvoice = () => {
+  html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png", 1.0);
+    //pdf document
+
+    const pdf = new jspdf({
+      orientation: "portrait",
+      unit: "pt",
+    });
+
+    const scaleFactor = window.innerWidth / pdf.internal.pageSize.getWidth();
+
+    pdf.internal.scaleFactor = scaleFactor;
+
+    const imageProps = pdf.getImageProperties(imgData);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = pdf.internal.pageSize.getHeight();
+    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    pdf.save("invoice-001.pdf");
+  });
+};
 
 const Pdf = ({ func }) => {
   const {
@@ -24,9 +48,13 @@ const Pdf = ({ func }) => {
     total,
     products,
   } = useSelector((state) => state.invoice);
-  const handlePrint = () => {
-    window.print();
-  };
+
+  // localStorage.setItem("name", JSON.stringify(fromName));
+
+  // const retrievedValue = JSON.parse(localStorage.getItem("name"));
+
+  // console.log(retrievedValue);
+
   return (
     <div className="bg-gray-200 border border-blue-400">
       <div className="mx-4 sm:mx-10 lg:mx-28 my-20 gap-10  flex flex-col lg:flex-row md:mx-20 400 border border-red-500">
@@ -36,10 +64,12 @@ const Pdf = ({ func }) => {
         >
           <div className="top   mx-9 my-7 ">
             {/* top shelf */}
-            <div className="logo flex 900 justify-between items-center">
+            <div className="logo flex flex-col-reverse sm:flex-row justify-between items-center">
               <img src={logo} alt="" className="900" />
               <div className="invoice">
-                <h2 className="text-6xl font-medium mr-8 ">INVOICE</h2>
+                <h2 className="text-2xl md:text-4xl lg:text-6xl font-medium mr-8 ">
+                  INVOICE
+                </h2>
                 <p className="text-2xl text-right pr-8 mt-2"># 1</p>
               </div>
             </div>
@@ -63,11 +93,12 @@ const Pdf = ({ func }) => {
                 <p className="font-medium text-lg text-right">{toAddress}</p>
               </div>
             </div>
-
             {/* end of bill details */}
+
             {/* date details */}
             <div className="dates w-3/4  ">
               <div className="date my-2 grid grid-cols-2">
+                {/* date issued */}
                 <input
                   type="text"
                   placeholder="Date"
@@ -83,7 +114,7 @@ const Pdf = ({ func }) => {
                 />
               </div>
 
-              {/* payment */}
+              {/* payment terms */}
               <div className="date my-2 grid grid-cols-2">
                 <input
                   type="text"
@@ -134,6 +165,9 @@ const Pdf = ({ func }) => {
                 />
               </div>
             </div>
+            {/* end of dates */}
+
+            {/* start of products / services table */}
             <div className="title bg-slate-600  flex  ">
               <input
                 type="text"
@@ -156,6 +190,8 @@ const Pdf = ({ func }) => {
                 className="border px-2 py-2 text-sm w-2/4 bg-slate-600 placeholder:text-white placeholder:font-medium focus:outline-slate-400"
               />
             </div>
+
+            {/* dynamic list of services */}
             <div className="services">
               {products.map((product, index) => {
                 return (
@@ -164,6 +200,7 @@ const Pdf = ({ func }) => {
                       type="text"
                       name="description"
                       value={product.description}
+                      placeholder="Description of the service or product"
                       onChange={(e) => {
                         handleChange(e, index);
                       }}
@@ -291,7 +328,7 @@ const Pdf = ({ func }) => {
         <button
           type="submit"
           className=" py-2 px-4 border mb-4 bg-black rounded-md text-white hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
-          onClick={handlePrint}
+          onClick={generateInvoice}
         >
           Print
         </button>
@@ -299,5 +336,7 @@ const Pdf = ({ func }) => {
     </div>
   );
 };
+
+export { generateInvoice };
 
 export default Pdf;

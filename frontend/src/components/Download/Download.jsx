@@ -1,10 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { generateInvoice } from "../Invoice/Pdf";
 
 const Download = ({ func }) => {
-  const handlePrint = () => {
-    window.print();
-  };
   return (
     <>
       <div className="grid grid-cols-3  lg:grid-cols-1 justify-center gap-10 lg:gap-0   ">
@@ -20,7 +18,7 @@ const Download = ({ func }) => {
         <button
           type="submit"
           className=" py-2 border mb-4 bg-slate-700 opacity-85 rounded-sm text-white hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
-          onClick={handlePrint}
+          onClick={generateInvoice}
         >
           Print
         </button>
