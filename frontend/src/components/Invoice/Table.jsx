@@ -16,16 +16,19 @@ const Table = () => {
   // console.log(products.map((i) => i.description));
   const dispatch = useDispatch();
 
+  //handler to update the producs/ service line
   const handleChange = (e, i) => {
     dispatch(
       updateProducts({ name: e.target.name, value: e.target.value, index: i })
     );
   };
 
+  //handle to add the new item line
   const handleNewItem = () => {
     dispatch(addItem());
   };
 
+  //handler to remove an item  from the array
   const handleDelete = (index) => {
     dispatch(removeItem(index));
   };
