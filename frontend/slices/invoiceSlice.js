@@ -90,6 +90,8 @@ const initialState = {
   notes: "",
   terms: "",
   subTotal: "",
+  amountPaid: "",
+  dueAmount: "",
 };
 
 const calculateSubTotal = (products) => {
@@ -111,6 +113,18 @@ const calculateTotal = (discount, subTotal, tax) => {
     currentTax > 0 && (total += (tax / 100) * total);
 
     return total;
+  }
+  return "";
+};
+
+// calculate amount due
+const calculateDueAmount = (total, amountPaid) => {
+  let currentTotal = parseInt(total);
+  let currentAmountPaid = parseInt(amountPaid);
+
+  if (currentTotal > 0) {
+    let dueAmount = currentTotal - currentAmountPaid;
+    return dueAmount;
   }
   return "";
 };
@@ -143,8 +157,11 @@ const invoiceSlice = createSlice({
       }
       //updating the subtotal and total value
       state.subTotal = calculateSubTotal(state.products);
-      const { discount, tax } = state;
+      const { discount, tax, amountPaid } = state;
       state.total = calculateTotal(discount, state.subTotal, tax);
+      if (state.amountPaid > 0) {
+        state.dueAmount = calculateDueAmount(state.total, amountPaid);
+      }
     },
     // to add a row of the service/product
     addItem: (state, action) => {

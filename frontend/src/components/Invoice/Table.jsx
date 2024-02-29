@@ -11,8 +11,18 @@ import {
 const Table = () => {
   // const { handleDelete } = useInvoice();
 
-  const { discount, total, tax, amount, products, notes, terms, subTotal } =
-    useSelector((state) => state.invoice);
+  const {
+    discount,
+    total,
+    tax,
+    amount,
+    products,
+    notes,
+    terms,
+    subTotal,
+    amountPaid,
+    dueAmount,
+  } = useSelector((state) => state.invoice);
   // console.log(products.map((i) => i.description));
   const dispatch = useDispatch();
 
@@ -35,6 +45,7 @@ const Table = () => {
   return (
     <>
       <div className="table w-full rounded-md overflow-hidden  ">
+        {/* titles of table */}
         <div className="title bg-slate-600  flex  ">
           <input
             type="text"
@@ -60,6 +71,8 @@ const Table = () => {
             <RiDeleteBin5Line />
           </button>
         </div>
+        {/* end of titles */}
+
         {products.map((product, index) => {
           return (
             <div className="items flex" key={index}>
@@ -118,9 +131,10 @@ const Table = () => {
           </button>
         </div>
 
-        {/* Notes section */}
         <div className=" grid grid-cols-1 md:grid-cols-2 my-2">
+          {/* Notes section */}
           <div className="1 order-last md:order-first">
+            {/* notes */}
             <input
               type="text"
               placeholder="Notes"
@@ -134,6 +148,7 @@ const Table = () => {
               onChange={handleChange}
               className="border  border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
             />
+            {/* textarea */}
             <input
               type="text"
               placeholder="Terms"
@@ -148,9 +163,10 @@ const Table = () => {
               className="border overflow-x-scroll border-slate-400 w-full mb-2 px-4 py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
             />
           </div>
+          {/* end of notes and terms */}
 
           {/* Amount calculations */}
-          <div className="2  py-5">
+          <div className="2  py-4">
             {/* sub total */}
             <div className="date my-2 grid grid-cols-2 ">
               <input
@@ -206,7 +222,7 @@ const Table = () => {
               <input
                 type="text"
                 placeholder="Total"
-                className=" w-full px-4 py-2 rounded-sm  placeholder:text-sm placeholder:text-right focus:shadow-md focus:outline-slate-200 "
+                className=" w-full px-4 py-2 rounded-sm font-semibold  placeholder:text-base placeholder:text-right focus:shadow-md focus:outline-slate-200 "
               />
               <input
                 type="number"
@@ -214,6 +230,41 @@ const Table = () => {
                 name="total"
                 onChange={handleChange}
                 value={total}
+                disabled
+                className="border border-slate-400 w-full px-4 py-1 rounded-sm  placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
+              />
+            </div>
+
+            {/* amount paid */}
+            <div className="date my-2 grid grid-cols-2">
+              <input
+                type="text"
+                placeholder="Amount Paid"
+                className=" w-full px-4 py-2 rounded-sm  placeholder:text-sm placeholder:text-right focus:shadow-md focus:outline-slate-200 "
+              />
+              <input
+                type="number"
+                value={amountPaid}
+                name="amountPaid"
+                onChange={handleChange}
+                placeholder="Amount Paid"
+                className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
+              />
+            </div>
+
+            {/* Due amount */}
+            <div className="date my-2 grid grid-cols-2">
+              <input
+                type="text"
+                placeholder="Due Amount"
+                className=" w-full px-4 py-2 rounded-sm  placeholder:text-sm font-bold placeholder:text-right focus:shadow-md focus:outline-slate-200 "
+              />
+              <input
+                type="number"
+                value={dueAmount}
+                name="dueAmount"
+                onChange={handleChange}
+                placeholder="Due Amount"
                 disabled
                 className="border border-slate-400 w-full px-4 py-1 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400 "
               />

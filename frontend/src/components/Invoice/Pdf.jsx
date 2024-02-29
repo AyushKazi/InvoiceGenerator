@@ -5,7 +5,6 @@ import logo from "../../assets/ITTI.png";
 import { useSelector } from "react-redux";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
-
 const generateInvoice = () => {
   html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
     const imgData = canvas.toDataURL("image/png", 1.0);
@@ -14,15 +13,15 @@ const generateInvoice = () => {
     const pdf = new jspdf({
       orientation: "portrait",
       unit: "pt",
+      format: [600, 1000],
     });
 
-    const scaleFactor = window.innerWidth / pdf.internal.pageSize.getWidth();
-
+    const scaleFactor = pdf.internal.pageSize.getWidth() / canvas.width;
     pdf.internal.scaleFactor = scaleFactor;
 
     const imageProps = pdf.getImageProperties(imgData);
     const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
+    const pdfHeight = (imageProps.height * pdfWidth) / imageProps.width;
     pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
     pdf.save("invoice-001.pdf");
   });
@@ -45,6 +44,8 @@ const Pdf = ({ func }) => {
     paymentTerms,
     poNum,
     dueDate,
+    amountPaid,
+    dueAmount,
     total,
     products,
   } = useSelector((state) => state.invoice);
@@ -337,7 +338,7 @@ const Pdf = ({ func }) => {
     <div className="outer bg-gray-200 border ">
       <div
         id="invoiceCapture"
-        className="inner bg-white mx-40 my-20 py-10 px-12 border border-slate-300 drop-shadow-xl"
+        className="inner w-[1100px] bg-white mx-40 my-20 py-10 px-12 border border-slate-300 drop-shadow-xl"
       >
         {/* title */}
         <div className="title flex justify-between">
@@ -358,7 +359,7 @@ const Pdf = ({ func }) => {
         {/* bill details */}
         <div className="billDetails my-10 pr-4">
           {/* from */}
-          <div className="from and dates flex justify-between">
+          <div className="from and dates flex justify-between ">
             <div className="">
               <h2 className="text-4xl text-red-800">{fromName}</h2>
               <p className="font-medium my-3">{fromAddress}</p>
@@ -390,9 +391,9 @@ const Pdf = ({ func }) => {
             <thead className="text-base  text-gray-700 uppercase bg-gray-200">
               <tr>
                 <th className=" py-2">Description</th>
-                <th className="">Items</th>
-                <th className="">Rate</th>
-                <th className="">Amount</th>
+                <th>Items</th>
+                <th>Rate</th>
+                <th>Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -415,7 +416,7 @@ const Pdf = ({ func }) => {
         {/* end of table */}
 
         {/* calculations */}
-        <div className="subtotal my-6 grid grid-cols-3">
+        <div className="subtotal my-6 grid grid-cols-3 ">
           <div></div>
           <div> </div>
           <div className=" grid grid-cols-2">
@@ -443,6 +444,16 @@ const Pdf = ({ func }) => {
             </div>
             <div className=" text-center text-xl py-2 border-b-2 bg-gray-200">
               <strong>{total}</strong>
+            </div>
+
+            {/* ampunt Paid */}
+            <div className="border-b-2">
+              <h3 className="text-xs md:text-sm uppercase  py-1 md:py-2 px-6">
+                Amount Paid
+              </h3>
+            </div>
+            <div className="text-sm md:text-base text-center py-1 md:py-2 border-b-2">
+              {amountPaid}
             </div>
           </div>
         </div>
