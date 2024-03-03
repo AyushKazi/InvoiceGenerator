@@ -5,24 +5,43 @@ import logo from "../../assets/ITTI.png";
 import { useSelector } from "react-redux";
 import html2canvas from "html2canvas";
 import jspdf from "jspdf";
-const generateInvoice = () => {
-  html2canvas(document.querySelector("#invoiceCapture")).then((canvas) => {
-    const imgData = canvas.toDataURL("image/png", 1.0);
-    //pdf document
 
+const generateInvoice = () => {
+  const invoiceCapture = document.querySelector("#invoiceCapture");
+
+  // Get the dimensions of the invoiceCapture div
+  const invoiceCaptureWidth = invoiceCapture.offsetWidth;
+  const invoiceCaptureHeight = invoiceCapture.offsetHeight;
+
+  // Initialize HTML2Canvas options
+  const options = {
+    width: invoiceCaptureWidth,
+    height: invoiceCaptureHeight,
+    scale: 1, // No need for initial scaling
+  };
+
+  // Generate PDF
+  html2canvas(invoiceCapture, options).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png", 1.0);
+
+    // Initialize PDF with portrait orientation and points as unit
     const pdf = new jspdf({
       orientation: "portrait",
       unit: "pt",
-      format: [600, 1000],
+      format: [invoiceCaptureWidth, invoiceCaptureHeight],
     });
 
-    const scaleFactor = pdf.internal.pageSize.getWidth() / canvas.width;
-    pdf.internal.scaleFactor = scaleFactor;
+    // Add the image to the PDF without scaling
+    pdf.addImage(
+      imgData,
+      "PNG",
+      0,
+      0,
+      invoiceCaptureWidth,
+      invoiceCaptureHeight
+    );
 
-    const imageProps = pdf.getImageProperties(imgData);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imageProps.height * pdfWidth) / imageProps.width;
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+    // Save the PDF
     pdf.save("invoice-001.pdf");
   });
 };
@@ -335,10 +354,38 @@ const Pdf = ({ func }) => {
     //     </button>
     //   </div>
     // </div>
-    <div className="outer bg-gray-200 border ">
+    <div className="outer bg-gray-200 border overflow-y-hidden ">
+      {/* buttons */}
+      <div className=" flex mt-10 mx-12 md:mx-44 gap-4 ">
+        {/* edit form button */}
+        <Link
+          to="/"
+          className="bg-black text-sm md:text-base border text-center text-white px-10 py-2 rounded-sm hover:bg-transparent hover:border-black hover:text-black transition-all duration-200"
+        >
+          Edit form
+        </Link>
+        <button
+          type="submit"
+          className="text-sm md:text-base py-2 px-9 md:px-14 border bg-black rounded-sm text-white hover:bg-transparent hover:text-black hover:border-black transition-all duration-300"
+          onClick={generateInvoice}
+        >
+          Print
+        </button>
+
+        {/* send mail */}
+        <button
+          type="submit"
+          className="text-sm md:text-base py-2 px-12 border bg-black rounded-sm text-white hover:bg-transparent hover:text-black hover:border-black transition-all duration-300"
+          onClick={generateInvoice}
+        >
+          Send Mail
+        </button>
+      </div>
+
+      {/* main invoice */}
       <div
         id="invoiceCapture"
-        className="inner w-[1100px] bg-white mx-40 my-20 py-10 px-12 border border-slate-300 drop-shadow-xl"
+        className="inner w-[950px]  bg-white mx-10 md:mx-22  my-10 py-10 px-12 border border-slate-300 drop-shadow-xl"
       >
         {/* title */}
         <div className="title flex justify-between">
@@ -350,7 +397,7 @@ const Pdf = ({ func }) => {
             <p className="text-right text-xl mb-4">#1</p>
 
             <p className="text-right text-base">
-              Due Balance : <strong className="text-xl">$90</strong>
+              Due Balance : <strong className="text-xl">$ {dueAmount}</strong>
             </p>
           </div>
         </div>
@@ -397,8 +444,8 @@ const Pdf = ({ func }) => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
-                <tr className="border border-b-2">
+              {products.map((product, index) => (
+                <tr key={index} className="border border-b-2">
                   <td className="text-sm text-center py-2">
                     {product.description}
                   </td>
@@ -416,10 +463,9 @@ const Pdf = ({ func }) => {
         {/* end of table */}
 
         {/* calculations */}
-        <div className="subtotal my-6 grid grid-cols-3 ">
+        <div className="subtotal my-6 grid grid-cols-2  ">
           <div></div>
-          <div> </div>
-          <div className=" grid grid-cols-2">
+          <div className=" grid grid-cols-2   ml-16">
             {/* subtotal */}
             <div className="border-b-2">
               <h3 className="text-sm uppercase py-2 px-6">Sub Total</h3>
@@ -430,29 +476,29 @@ const Pdf = ({ func }) => {
             <div className="border-b-2">
               <h3 className="text-sm uppercase  py-2 px-6">Tax</h3>
             </div>
-            <div className=" text-center py-2 border-b-2">{tax}</div>
+            <div className=" text-center py-2 border-b-2">{tax} %</div>
 
             {/* discount */}
             <div className="border-b-2">
               <h3 className="text-sm uppercase  py-2 px-6">Discount</h3>
             </div>
-            <div className=" text-center py-2 border-b-2">{discount}</div>
+            <div className=" text-center py-2 border-b-2">{discount} %</div>
 
             {/* Total */}
             <div className="border-b-2 bg-gray-200">
-              <h3 className="text-lg uppercase  py-2 px-6 font-bold">Total</h3>
+              <h3 className="text-base uppercase  py-2 px-6 font-bold">
+                Total
+              </h3>
             </div>
-            <div className=" text-center text-xl py-2 border-b-2 bg-gray-200">
+            <div className=" text-center text-base py-2 border-b-2 bg-gray-200">
               <strong>{total}</strong>
             </div>
 
             {/* ampunt Paid */}
             <div className="border-b-2">
-              <h3 className="text-xs md:text-sm uppercase  py-1 md:py-2 px-6">
-                Amount Paid
-              </h3>
+              <h3 className="text-sm uppercase py-2 px-6">Amount Paid</h3>
             </div>
-            <div className="text-sm md:text-base text-center py-1 md:py-2 border-b-2">
+            <div className="text-base text-center py-2 border-b-2">
               {amountPaid}
             </div>
           </div>
@@ -464,29 +510,14 @@ const Pdf = ({ func }) => {
         <div className="notes">
           <h2 className="font-medium text-2xl mt-4 mb-2">Notes</h2>
           <p>{notes}</p>
+          <hr />
           <h2 className="font-medium text-2xl mt-4 mb-2">Terms</h2>
           <p>{terms}</p>
         </div>
 
-        {/* end of notes */}
-      </div>
+        <hr />
 
-      {/* buttons */}
-      <div className=" mx-auto">
-        {/* edit form button */}
-        <Link
-          to="/"
-          className="bg-black border text-white px-4 py-2 rounded-md hover:bg-transparent hover:border-black hover:text-black transition-all duration-200"
-        >
-          Edit form
-        </Link>
-        <button
-          type="submit"
-          className=" py-2 px-4 border mb-4 bg-black rounded-md text-white hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
-          onClick={generateInvoice}
-        >
-          Print
-        </button>
+        {/* end of notes */}
       </div>
     </div>
   );
