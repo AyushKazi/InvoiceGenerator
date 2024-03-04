@@ -5,7 +5,7 @@ import Dates from "../components/Invoice/Dates";
 import Logo from "../components/Invoice/Logo";
 import BillDetails from "../components/Invoice/BillDetails";
 import Table from "../components/Invoice/Table";
-import Pdf from "../components/Invoice/Pdf";
+import Pdf from "../components/Pdf/Pdf";
 
 const Invoice = () => {
   const { register, handleSubmit, reset } = useForm();

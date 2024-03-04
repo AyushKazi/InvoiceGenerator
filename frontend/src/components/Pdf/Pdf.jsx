@@ -63,6 +63,7 @@ const Pdf = ({ func }) => {
     paymentTerms,
     poNum,
     dueDate,
+    invoiceNum,
     amountPaid,
     dueAmount,
     total,
@@ -354,38 +355,29 @@ const Pdf = ({ func }) => {
     //     </button>
     //   </div>
     // </div>
-    <div className="outer bg-gray-200 border overflow-y-hidden ">
+    <div className="outer  bg-gray-200 border overflow-y-hidden ">
       {/* buttons */}
-      <div className=" flex mt-10 mx-12 md:mx-44 gap-4 ">
+      <div className=" flex mt-10 mx-12 md:mx-44 lg:mx-60  gap-4 ">
         {/* edit form button */}
         <Link
           to="/"
-          className="bg-black text-sm md:text-base border text-center text-white px-10 py-2 rounded-sm hover:bg-transparent hover:border-black hover:text-black transition-all duration-200"
+          className="bg-slate-700 text-sm md:text-base border text-center text-white px-10 py-2 rounded-sm hover:bg-transparent hover:border-black hover:text-black transition-all duration-200"
         >
           Edit form
         </Link>
         <button
           type="submit"
-          className="text-sm md:text-base py-2 px-9 md:px-14 border bg-black rounded-sm text-white hover:bg-transparent hover:text-black hover:border-black transition-all duration-300"
+          className="text-sm md:text-base py-2 px-9 md:px-14 border bg-slate-700 rounded-sm text-white hover:bg-transparent hover:text-black hover:border-black transition-all duration-300"
           onClick={generateInvoice}
         >
           Print
-        </button>
-
-        {/* send mail */}
-        <button
-          type="submit"
-          className="text-sm md:text-base py-2 px-12 border bg-black rounded-sm text-white hover:bg-transparent hover:text-black hover:border-black transition-all duration-300"
-          onClick={generateInvoice}
-        >
-          Send Mail
         </button>
       </div>
 
       {/* main invoice */}
       <div
         id="invoiceCapture"
-        className="inner w-[950px]  bg-white mx-10 md:mx-22  my-10 py-10 px-12 border border-slate-300 drop-shadow-xl"
+        className="inner w-[950px]  bg-white mx-10 md:mx-22 lg:mx-56  my-10 py-10 px-12 border border-slate-300 drop-shadow-xl"
       >
         {/* title */}
         <div className="title flex justify-between">
@@ -394,11 +386,12 @@ const Pdf = ({ func }) => {
           </div>
           <div className="invoiceNum pr-4">
             <h2 className="text-5xl font-medium my-4">INVOICE</h2>
-            <p className="text-right text-xl mb-4">#1</p>
+            <p className="text-right text-xl mb-4"># {invoiceNum}</p>
 
             <p className="text-right text-base">
               Due Balance : <strong className="text-xl">$ {dueAmount}</strong>
             </p>
+            <p className="text-right text-base">Due Date : {dueDate}</p>
           </div>
         </div>
         {/* end of image and invoice num */}

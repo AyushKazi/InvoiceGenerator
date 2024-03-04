@@ -8,7 +8,7 @@ import ErrorPage from "./routes/ErrorPage";
 import Help from "./routes/Help";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignUp/SignIn";
-import Pdf from "./components/Invoice/Pdf";
+import Pdf from "./components/Pdf/Pdf";
 
 const router = createBrowserRouter([
   {

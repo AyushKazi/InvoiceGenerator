@@ -1,14 +1,23 @@
 import React, { useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFormData } from "../../../slices/invoiceSlice";
 
 const Logo = () => {
   const inputRef = useRef(null);
+  const { invoiceNum } = useSelector((state) => state.invoice);
   const [image, setImage] = useState(null);
+
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    dispatch(changeFormData({ name: e.target.name, value: e.target.value }));
+  };
 
   const handleImageClick = () => {
     inputRef.current.click();
   };
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
+    console.log(e.target.files[0]);
   };
   return (
     <>
@@ -48,6 +57,9 @@ const Logo = () => {
           <input
             type="number"
             placeholder="Bill no."
+            name="invoiceNum"
+            value={invoiceNum}
+            onChange={handleChange}
             className="border border-slate-400 w-3/4 mx-6 md:mx-8 px-4 py-1 md:py-2 rounded-sm placeholder:text-sm focus:shadow-md focus:outline-slate-400"
           />
         </div>

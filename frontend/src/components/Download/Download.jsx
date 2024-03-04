@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { generateInvoice } from "../Invoice/Pdf";
+import { generateInvoice } from "../Pdf/Pdf";
 
 const Download = ({ func }) => {
   return (
@@ -14,21 +14,6 @@ const Download = ({ func }) => {
         >
           Preview
         </Link>
-
-        <button
-          type="submit"
-          className=" py-2 border mb-4 bg-slate-700 opacity-85 rounded-sm text-white hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
-          onClick={generateInvoice}
-        >
-          Print
-        </button>
-
-        <button
-          type="submit"
-          className=" py-2  border mb-4 bg-slate-700 opacity-85 rounded-sm text-white  hover:bg-transparent hover:text-teal-900 hover:border-teal-900 transition-all duration-300"
-        >
-          Send Mail
-        </button>
       </div>
 
       <div className="flex justify-center"></div>

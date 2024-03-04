@@ -1,62 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useInvoice } from "../src/hooks/use-invoice";
 
-const newInvoiceSlice = () => {
-  //   const {
-  //     fromName,
-  //     fromAddress,
-  //     fromNumber,
-  //     toName,
-  //     toAddress,
-  //     toNumber,
-  //     date,
-  //     paymentTerms,
-  //     dueDate,
-  //     poNum,
-  //     discount,
-  //     total,
-  //     tax,
-  //     amount,
-  //     products,
-  //     notes,
-  //     terms,
-  //     subTotal,
-  //   } = useInvoice();
-  //   const initialState = {
-  //     fromName,
-  //     fromAddress,
-  //     fromNumber,
-  //     toName,
-  //     toAddress,
-  //     toNumber,
-  //     date,
-  //     paymentTerms,
-  //     dueDate,
-  //     poNum,
-  //     discount,
-  //     total,
-  //     tax,
-  //     amount,
-  //     products,
-  //     notes,
-  //     terms,
-  //     subTotal,
-  //   };
-  //   const invoiceSlice = createSlice({
-  //     name: "invoice",
-  //     initialState,
-  //     reducers: {
-  //       changeFormData: (state, action) => {
-  //         const demo = {
-  //           ...state,
-  //           [action.payload.e.target.name]: action.payload.e.target.value,
-  //         };
-  //         console.log(demo);
-  //       },
-  //     },
-  //   });
-  //   return invoiceSlice;
-};
 const defaultProduct = {
   description: "",
   numberOfItems: "",
@@ -65,6 +9,7 @@ const defaultProduct = {
 };
 
 const initialState = {
+  invoiceNum: "",
   fromName: "",
   fromAddress: "",
   fromNumber: "",
@@ -94,6 +39,7 @@ const initialState = {
   dueAmount: "",
 };
 
+// calculation of subtotal of all amount
 const calculateSubTotal = (products) => {
   return products.reduce((total, product) => {
     const amount = product.amount !== "" ? parseInt(product.amount) : 0;
