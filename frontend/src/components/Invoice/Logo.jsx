@@ -17,7 +17,6 @@ const Logo = () => {
   };
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
   return (
     <>

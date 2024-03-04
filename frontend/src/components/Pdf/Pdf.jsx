@@ -357,7 +357,7 @@ const Pdf = ({ func }) => {
     // </div>
     <div className="outer  bg-gray-200 border overflow-y-hidden ">
       {/* buttons */}
-      <div className=" flex mt-10 mx-12 md:mx-44 lg:mx-60  gap-4 ">
+      <div className=" flex mt-10 mx-12 lg:mx-40 xl:mx-60  gap-4 ">
         {/* edit form button */}
         <Link
           to="/"
@@ -377,7 +377,7 @@ const Pdf = ({ func }) => {
       {/* main invoice */}
       <div
         id="invoiceCapture"
-        className="inner w-[950px]  bg-white mx-10 md:mx-22 lg:mx-56  my-10 py-10 px-12 border border-slate-300 drop-shadow-xl"
+        className="inner w-[950px]  bg-white mx-10 md:mx-22 xl:mx-56  my-10 py-10 px-12 border border-slate-300 drop-shadow-xl"
       >
         {/* title */}
         <div className="title flex justify-between">
